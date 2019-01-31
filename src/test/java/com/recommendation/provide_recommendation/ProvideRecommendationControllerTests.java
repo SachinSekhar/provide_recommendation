@@ -4,6 +4,7 @@ import com.recommendation.provide_recommendation.DTO.ResponseDTO;
 import com.recommendation.provide_recommendation.controller.RecommendationController;
 import com.recommendation.provide_recommendation.entity.CategoryMappingEntity;
 import com.recommendation.provide_recommendation.service.ProvideRecommendation;
+import com.recommendation.provide_recommendation.service.ProvideTrending;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -21,6 +22,8 @@ public class ProvideRecommendationControllerTests {
     RecommendationController recommendationController;
 
 
+    @Mock
+    ProvideTrending provideTrending;
 
     @Mock
     ProvideRecommendation provideRecommendation;
@@ -38,6 +41,16 @@ public class ProvideRecommendationControllerTests {
         String userId="abc";
         responseDTO=recommendationController.get(userId);
         assert(responseDTO.getStatus().equals("FAILURE"));
+    }
+
+    @Test
+    public void testEmptyTrends(){
+
+            Mockito.when(provideTrending.select(Mockito.any(String.class))).thenReturn(null);
+            ResponseDTO responseDTO;
+            responseDTO=recommendationController.getTrending();
+            assert(responseDTO.getStatus().equals("FAILURE"));
+
     }
 }
 
